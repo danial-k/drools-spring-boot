@@ -3,6 +3,22 @@
 This project is a multi-module Maven project with two components:
 - A Spring Boot application
 - Embedded KIE Drools for processing business rules
+Docker will be used to run a Maven container to generate and build the project. 
+
+## Setting up Docker container
+Start a Maven container with:
+```shell
+docker run \
+--name drools-spring-boot \
+--hostname drools-spring-boot \
+-it \
+-p 3055:8080 \
+-p 3056:35729 \
+--mount type=bind,src=`pwd`,dst=/drools-spring-boot \
+-w //drools-spring-boot \
+maven:3.6-jdk-8 \
+bash
+```
 
 ## Generating Drools sub-module
 Browse for the latest Drools Maven archetype at https://search.maven.org/artifact/org.kie/kie-drools-archetype/
@@ -71,10 +87,16 @@ In the root directory, create a new ```pom.xml``` file with the following conten
     <version>1.0.0-SNAPSHOT</version>
     <name>KIE Drools Spring Boot API</name>
 
+    <!-- Define sub-modules for this project to be compiled together -->
+    <!-- Paths are assumed to match sub-module names -->
     <modules>
         <module>drools</module>
         <module>spring-boot</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <!-- Dependency Management controls versions for sub-modules -->
     <!-- This means sub-modules can omit versions -->
@@ -92,13 +114,15 @@ In the root directory, create a new ```pom.xml``` file with the following conten
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-devtools</artifactId>
                 <version>2.1.5.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-  
+
     <build>
+        <!-- Plugin Management controls versions for sub-modules -->
+        <!-- This means sub-modules can omit versions -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -109,13 +133,25 @@ In the root directory, create a new ```pom.xml``` file with the following conten
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>2.1.5.RELEASE</version>
+                    <!-- This configuration option allows running mvn spring-boot:run from the parent directory -->
+                    <!-- The sub-module pom should contain a skip:false -->
+                    <!-- https://github.com/drahkrub/spring-boot-multi-module -->
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
 </project>
 ```
 
-At the project root, verify that the application builds with
-```shell
-mvn clean package
+To run the spring application in development mode navigate to the ```spring-boot``` sub-module and run:
 ```
+mvn spring-boot:run
+```
+This will start up the built-in Tomcat server on port 8080, and the application will be available at http://127.0.0.1:3055.
