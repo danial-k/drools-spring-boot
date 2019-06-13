@@ -155,3 +155,9 @@ To run the spring application in development mode navigate to the ```spring-boot
 mvn spring-boot:run
 ```
 This will start up the built-in Tomcat server on port 8080, and the application will be available at http://127.0.0.1:3055.
+
+# Building a Docker image
+
+```shell
+mvn package spring-boot:repackage
+```
