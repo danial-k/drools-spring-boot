@@ -31,9 +31,10 @@ The generated project should contain a sample POJO (plain old java object), a sa
 ```
 Move the ```rules.drl``` file from ```resources``` to ```com/example/``` manually or with:
 ```shell
-mkdir -p resources/
-mv resources/rules.drl 
+mkdir -p drools/src/main/resources/com/example
+mv drools/src/main/resources/rules.drl drools/src/main/resources/com/example/rules.drl
 ```
+This creates a directory recursively with all the parent directories that do not yet exist (```-p```) then moves the file to the newly created directory.
 
 ## Generating Spring Boot sub-module
 Use [Spring Initializr](https://start.spring.io/) archetype to generate a new Spring project, either by running the following to download a pre-configured zip file or visiting https://start.spring.io and setting ```Project```: ```Maven```, ```Language```: ```Java```, ```Spring Boot```: ```2.1.5``` Project Metadata's ```Group```: ```com.example```, ```Artifact```: ```spring-boot```, ```Package Name```: ```com.example.spring-boot```, ```Packaging```: ```Jar``` and ```Java```: ```8```. Add a Spring Web Starter dependency so RESTful services are also included.
