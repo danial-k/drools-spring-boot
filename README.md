@@ -45,12 +45,12 @@ The generated project should contain a sample POJO (plain old java object), a sa
 </parent>
 ...
 ```
-Move the ```rules.drl``` file from ```resources``` to ```com/example/``` manually or with:
+Move the ```rules.drl``` file from ```resources``` to ```com/example/drools``` manually or with:
 ```shell
-mkdir -p drools/src/main/resources/com/example
-mv drools/src/main/resources/rules.drl drools/src/main/resources/com/example/rules.drl
+mkdir -p drools/src/main/resources/com/example/drools
+mv drools/src/main/resources/rules.drl drools/src/main/resources/com/example/drools/rules.drl
 ```
-This creates a directory recursively with all the parent directories that do not yet exist (```-p```) then moves the file to the newly created directory.
+This creates a directory recursively with all the parent directories that do not yet exist (```-p```) then moves the file to the newly created directory.  Similarly, move the test file and the java file.
 
 ## Generating Spring Boot sub-module
 Use [Spring Initializr](https://start.spring.io/) archetype to generate a new Spring project, either by running the following to download a pre-configured zip file or visiting https://start.spring.io and setting ```Project```: ```Maven```, ```Language```: ```Java```, ```Spring Boot```: ```2.1.5``` Project Metadata's ```Group```: ```com.example```, ```Artifact```: ```spring-boot```, ```Package Name```: ```com.example.spring-boot```, ```Packaging```: ```Jar``` and ```Java```: ```8```. Add a Spring Web Starter dependency so RESTful services are also included.
@@ -157,7 +157,8 @@ mvn spring-boot:run
 This will start up the built-in Tomcat server on port 8080, and the application will be available at http://127.0.0.1:3055.
 
 # Building a Docker image
-
+To build a deployable application package the following commands are needed:
 ```shell
 mvn package spring-boot:repackage
+java -jar spring-boot/target/spring-boot-0.0.1-SNAPSHOT.jar
 ```
