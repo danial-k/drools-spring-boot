@@ -1,7 +1,6 @@
 package com.example.springboot;
 
 import com.example.drools.Measurement;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +12,6 @@ import org.kie.api.runtime.KieSession;
 
 @RestController
 public class RulesController {
-
-    //@Autowired
-    //private RuleService ruleService;
 
     @RequestMapping("/rules")
     public String rules(
