@@ -3,6 +3,7 @@
 This project is a multi-module Maven project with two components:
 - A Spring Boot application
 - Embedded KIE Drools for processing business rules
+
 Docker will be used to run a Maven container to generate and build the project. 
 
 ## Setting up Docker container
