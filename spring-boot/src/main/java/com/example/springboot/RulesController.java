@@ -30,5 +30,3 @@ public class RulesController {
         return measurement.toString();
     }
 }
-
-//<context:component-scan base-package="com.example.yourapp"/>
